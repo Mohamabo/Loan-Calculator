@@ -21,7 +21,7 @@ function getCurrentUIValues() {
 // Put some default values in the inputs
 // Call a function to calculate the current monthly payment
 function setupIntialValues() {
-  const values = { amount: 10000, years: 10, rate: 4.5 };
+  const values = { amount: 10000, years: 10, rate: 5 };
   const amountUI = document.getElementById("loan-amount");
   amountUI.value = values.amount;
   const yearsUI = document.getElementById("loan-years");
@@ -43,6 +43,10 @@ function update() {
 // that always has 2 decimal places.
 function calculateMonthlyPayment(values) {
   const monthlyRate = values.rate / 100 / 12; // Convert annual rate to monthly and percentage to decimal
+  if (values.rate === 0) {
+    return (values.amount / (values.years * 12)).toFixed(2);
+    // If the rate is 0, simply divide the amount by total number of payments
+  }
   const n = Math.floor(values.years * 12); // Total number of payments
   return ((values.amount * monthlyRate) /
     (1 - Math.pow(1 + monthlyRate, -n))).toFixed(2);
